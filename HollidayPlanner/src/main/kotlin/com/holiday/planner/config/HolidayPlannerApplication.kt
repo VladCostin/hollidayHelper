@@ -1,13 +1,13 @@
-package com.holliday.planner.config
+package com.holiday.planner.config
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-@ComponentScan("com.holliday.planner.servlet", "com.holliday.planner.service", "com.holliday.planner.freeDaysAPI")
-class HollidayPlannerApplication
+@ComponentScan("com.holiday.planner.servlet", "com.holiday.planner.service", "com.holiday.planner.freeDaysAPI")
+class HolidayPlannerApplication
 
 fun main(args: Array<String>) {
-	runApplication<HollidayPlannerApplication>(*args)
+	runApplication<HolidayPlannerApplication>(*args)
 }

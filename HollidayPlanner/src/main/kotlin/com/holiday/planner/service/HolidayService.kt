@@ -1,13 +1,13 @@
-package com.holliday.planner.service
+package com.holiday.planner.service
 
-import com.holliday.planner.freeDaysAPI.ItfFreeDaysAPI
-import com.holliday.planner.freeDaysAPI.model.HolidayDay
+import com.holiday.planner.freeDaysAPI.ItfFreeDaysAPI
+import com.holiday.planner.freeDaysAPI.model.HolidayDay
 import java.time.LocalDate
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
 
 @Component
-class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayService{
+class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayService {
 	
 	/*
 
@@ -28,10 +28,7 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayServic
 
 	override fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?) : Mono<List<HolidayDay>> {
 		
-		return freeDaysAPI.getCountries(x, 2020).filter {
-			it.isSuccess() }.map{
-
-			it.body.hollidays }
+		return freeDaysAPI.getCountries(x, 2020)
 	}
 	
 //	fun getHolliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?): PairResult<List<IntervalCandidate>> {

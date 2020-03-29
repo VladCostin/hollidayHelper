@@ -1,4 +1,4 @@
-package com.holliday.planner.freeDaysAPI.model
+package com.holiday.planner.freeDaysAPI.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -14,5 +14,5 @@ class HolidayDay {
     var type: List<String>? = emptyList()
 
     @SerializedName("date")
-    var date:HolidayDate = HolidayDate()
+    var date: HolidayDate = HolidayDate()
 }

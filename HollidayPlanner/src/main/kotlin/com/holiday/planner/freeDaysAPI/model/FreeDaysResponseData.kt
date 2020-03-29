@@ -1,4 +1,4 @@
-package com.holliday.planner.freeDaysAPI.model
+package com.holiday.planner.freeDaysAPI.model
 
 import com.google.gson.annotations.SerializedName
 
@@ -23,7 +23,7 @@ class FreeDaysResponseData {
 
     fun getHollidays() : List<HolidayDay> {
 
-        return body.hollidays
+        return body.holidays
     }
 
 }

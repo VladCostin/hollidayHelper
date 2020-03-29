@@ -1,6 +1,6 @@
-package com.holliday.planner.service
+package com.holiday.planner.service
 
-import com.holliday.planner.freeDaysAPI.model.HolidayDay
+import com.holiday.planner.freeDaysAPI.model.HolidayDay
 import reactor.core.publisher.Mono
 import java.time.LocalDate
 
