@@ -1,17 +1,19 @@
 package com.holiday.planner.service
 
+import com.holiday.planner.datamapper.ItfClassMapper
 import com.holiday.planner.freeDaysAPI.ItfFreeDaysAPI
 import com.holiday.planner.freeDaysAPI.model.HolidayDay
+import com.holiday.planner.model.DayCandidate
 import java.time.LocalDate
 import org.springframework.stereotype.Component
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Component
-class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayService {
+class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val mapper : ItfClassMapper) : ItfHolidayService {
 	
 	/*
 
-	private val apiFreeDays: FreeDaysAPI;
 
 	private val holidayIdentifier: ItfHollidayIdentifier;
 
@@ -26,10 +28,25 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayServic
 	}
 	*/
 
-	override fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?) : Mono<List<HolidayDay>> {
+	override fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?) : Flux<DayCandidate?> {
 		
-		return freeDaysAPI.getCountries(x, 2020)
+		return freeDaysAPI.getCountries(x, 2020).map { mapper.mapDay(it) }.filter { filterByInterval(it, fromDate, toDate)  }
 	}
+
+	private fun filterByInterval(day : DayCandidate?, fromDate : LocalDate?, toDate : LocalDate?) : Boolean {
+
+		if(fromDate == null && toDate == null) {
+			return true
+		}
+
+		if(day == null) {
+			return false
+		}
+
+		return day.isAfter(fromDate!!) && day.isBefore(toDate!!)
+	}
+
+
 	
 //	fun getHolliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?): PairResult<List<IntervalCandidate>> {
 //
@@ -66,20 +83,7 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayServic
 //		return result;
 //	}
 //	
-//	fun filterByInterval(days : List<DayCandidate>, fromDate : LocalDate?, toDate : LocalDate?) : List<DayCandidate> {
-//		
-//		if(fromDate == null && toDate == null) {
-//			
-//			return days;
-//		}
-//		
-//		var result = days;
-//		
-//		fromDate?.let { result = result.filter { day -> day.isAfter(fromDate) }};
-//		toDate?.let { result = result.filter { day -> day.isBefore(toDate) }};
-//		
-//		return result;
-//	}
+
 //	
 //	fun filterOnlyFilled(intervals: List<IntervalCandidate>, onlyFilled : Boolean) : List<IntervalCandidate> {
 //		
