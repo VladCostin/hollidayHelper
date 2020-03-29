@@ -1,11 +1,13 @@
 package com.holliday.planner.service
 
+import com.holliday.planner.freeDaysAPI.ItfFreeDaysAPI
+import com.holliday.planner.freeDaysAPI.model.HolidayDay
 import java.time.LocalDate
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
+import org.springframework.stereotype.Component
+import reactor.core.publisher.Mono
 
-@Service
-class HollidayService {
+@Component
+class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI) : ItfHolidayService{
 	
 	/*
 
@@ -24,9 +26,12 @@ class HollidayService {
 	}
 	*/
 
-	fun getHolliday() : String {
+	override fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?) : Mono<List<HolidayDay>> {
 		
-		return "well, hello there!";
+		return freeDaysAPI.getCountries(x, 2020).filter {
+			it.isSuccess() }.map{
+
+			it.body.hollidays }
 	}
 	
 //	fun getHolliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?): PairResult<List<IntervalCandidate>> {

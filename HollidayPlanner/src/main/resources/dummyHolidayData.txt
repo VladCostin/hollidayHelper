@@ -1,0 +1,269 @@
+{
+    "meta": {
+        "code": 200
+    },
+    "response": {
+        "holidays": [
+            {
+                "name": "New Year's Day",
+                "description": "New Year’s Day (Anul Nou) and the following day, on January 1 and 2 respectively, are annual holidays in Romania.",
+                "date": {
+                    "iso": "2020-01-01",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 1,
+                        "day": 1
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Day after New Year's Day",
+                "description": "Both New Year’s Day (Anul Nou) and the following day, on January 1 and 2 respectively, are annual holidays in Romania.",
+                "date": {
+                    "iso": "2020-01-02",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 1,
+                        "day": 2
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Unification Day",
+                "description": "Unification Day celebrates the political union between Wallachia and Moldavia, which is deemed as the foundation of modern Romania.",
+                "date": {
+                    "iso": "2020-01-24",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 1,
+                        "day": 24
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Orthodox Good Friday",
+                "description": "Millions of Orthodox Christians around the world annually observe Good Friday to commemorate the events leading up to Jesus Christ's crucifixion.",
+                "date": {
+                    "iso": "2020-04-17",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 4,
+                        "day": 17
+                    }
+                },
+                "type": [
+                    "National holiday",
+                    "Orthodox"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Orthodox Easter Day",
+                "description": "Easter (Paștele) is both a religious and a national holiday in Romania. The Easter date is based on the Orthodox Christian Church’s calendar.",
+                "date": {
+                    "iso": "2020-04-19",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 4,
+                        "day": 19
+                    }
+                },
+                "type": [
+                    "National holiday",
+                    "Orthodox"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Orthodox Easter Monday",
+                "description": "The Day after Easter (Paștele) is both a religious and a national holiday in Romania. The Easter date is based on the Orthodox Christian Church’s calendar.",
+                "date": {
+                    "iso": "2020-04-20",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 4,
+                        "day": 20
+                    }
+                },
+                "type": [
+                    "National holiday",
+                    "Orthodox"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Labor Day / May Day",
+                "description": "Labor Day (Ziua muncii) is a national public holiday in Romania on May 1 each year.",
+                "date": {
+                    "iso": "2020-05-01",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 5,
+                        "day": 1
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Children's Day",
+                "description": "Children’s Day (Ziua Copilului) is annually celebrated on June 1 in Romania.",
+                "date": {
+                    "iso": "2020-06-01",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 6,
+                        "day": 1
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Orthodox Pentecost",
+                "description": "Many Christians in Romania celebrate the Pentecost (Rusalii or Rusaliile) public holiday, also known as Whitsunday or Whit Sunday.",
+                "date": {
+                    "iso": "2020-06-07",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 6,
+                        "day": 7
+                    }
+                },
+                "type": [
+                    "National holiday",
+                    "Orthodox"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Orthodox Pentecost Monday",
+                "description": "Many Christians celebrate the Whit Monday (Rusalii or Rusaliile) public holiday in Romania.",
+                "date": {
+                    "iso": "2020-06-08",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 6,
+                        "day": 8
+                    }
+                },
+                "type": [
+                    "National holiday",
+                    "Orthodox"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "St Mary's Day",
+                "description": "The feast day of the Assumption of Mary is a national holiday in Romania on August 15 every year.",
+                "date": {
+                    "iso": "2020-08-15",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 8,
+                        "day": 15
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "St Andrew's Day",
+                "description": "St Andrew’s Day (Ziua Sfântului Andrei) is a national holiday in Romania on November 30 every year.",
+                "date": {
+                    "iso": "2020-11-30",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 11,
+                        "day": 30
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "National holiday",
+                "description": "National Day in Romania, also called Unification Day, is an annual public holiday to remember when the country’s provinces became united on December 1, 1918.",
+                "date": {
+                    "iso": "2020-12-01",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 12,
+                        "day": 1
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Christmas Day",
+                "description": "Christmas Day is a Christian holiday to celebrate Jesus Christ’s birth in Romania and falls on December 25 every year.",
+                "date": {
+                    "iso": "2020-12-25",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 12,
+                        "day": 25
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            },
+            {
+                "name": "Second day of Christmas",
+                "description": "The second day of Christmas falls on December 26 and is part of a two-day Christian holiday in Romania to celebrate Jesus Christ’s birth.",
+                "date": {
+                    "iso": "2020-12-26",
+                    "datetime": {
+                        "year": 2020,
+                        "month": 12,
+                        "day": 26
+                    }
+                },
+                "type": [
+                    "National holiday"
+                ],
+                "locations": "All",
+                "states": "All"
+            }
+        ]
+    }
+}
