@@ -1,99 +1,51 @@
 package com.holiday.planner.service
 
-import com.holiday.planner.datamapper.ItfClassMapper
 import com.holiday.planner.freeDaysAPI.ItfFreeDaysAPI
 import com.holiday.planner.freeDaysAPI.model.HolidayDay
+import com.holiday.planner.holidayIdentifier.ItfHolidayIdentifier
 import com.holiday.planner.model.DayCandidate
+import com.holiday.planner.model.IntervalCandidate
 import java.time.LocalDate
 import org.springframework.stereotype.Component
-import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.time.DayOfWeek
 
 @Component
-class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val mapper : ItfClassMapper) : ItfHolidayService {
-	
-	/*
+class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holidayIdentifier: ItfHolidayIdentifier) : ItfHolidayService {
 
 
-	private val holidayIdentifier: ItfHollidayIdentifier;
+    override fun getHoliday(x: String, onlyFilled: Boolean, fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean): Mono<List<IntervalCandidate>> {
 
-	private val mapper: ItfClassMapper;
+        return freeDaysAPI.getCountries(x, 2020).map { it.mapDay() }.filter { it.filterByInterval(fromDate, toDate, onlyFuture) }.collectList().map {
 
-	init {
+            holidayIdentifier.getWeeksCandidate(it.toList())
+        }
+    }
 
-		apiFreeDays = FreeDaysAPI();
-		holidayIdentifier = HollidayIdentifier();
-		mapper = ClassMapper();
+    private fun DayCandidate.filterByInterval(fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean) = isDayAfter(fromDate) &&
+            isDayBefore(toDate) && isDayNotInWeekend() && isNotPassed(onlyFuture)
 
-	}
-	*/
+    private fun DayCandidate.isDayNotInWeekend(): Boolean {
 
-	override fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?) : Flux<DayCandidate?> {
-		
-		return freeDaysAPI.getCountries(x, 2020).map { mapper.mapDay(it) }.filter { filterByInterval(it, fromDate, toDate)  }
-	}
+        return dateDayLocalDate.dayOfWeek != DayOfWeek.SATURDAY && dateDayLocalDate.dayOfWeek != DayOfWeek.SUNDAY;
 
-	private fun filterByInterval(day : DayCandidate?, fromDate : LocalDate?, toDate : LocalDate?) : Boolean {
+    }
 
-		if(fromDate == null && toDate == null) {
-			return true
-		}
+    private inline fun DayCandidate.isDayAfter(fromDate: LocalDate?) = fromDate == null || isAfter(fromDate)
 
-		if(day == null) {
-			return false
-		}
+    private inline fun DayCandidate.isDayBefore(toDate: LocalDate?) = toDate == null || isBefore(toDate)
 
-		return day.isAfter(fromDate!!) && day.isBefore(toDate!!)
-	}
+    private inline fun DayCandidate.isNotPassed(onlyFuture: Boolean) = !onlyFuture || isAfter(LocalDate.now())
 
+    private fun HolidayDay.mapDay(): DayCandidate {
 
-	
-//	fun getHolliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?): PairResult<List<IntervalCandidate>> {
-//
-//		var response: ResponseData? = apiFreeDays.getCountries("ro", 2020);
-//		var result: PairResult<List<IntervalCandidate>>;
-//
-//		try {
-//			
-//			if(response == null) {
-//				
-//				result = PairResult(500);
-//				
-//			} else if ( !response.isSuccess()) {
-//
-//				result = PairResult(response.getErrorCode());
-//			} else {
-//				
-//				var days: List<DayCandidate> = mapper.mapDays(response.getHollidays());
-//				days = filterByInterval(days, fromDate, toDate);
-//				
-//				var weeks: List<IntervalCandidate> = holidayIdentifier.getWeeksCandidate(days);
-//				weeks = filterOnlyFilled(weeks, onlyFilled);
-//				
-//				result = PairResult(200, weeks);
-//			}
-//			
-//		} catch (e: Exception) {
-//
-//			result = PairResult(500);
-//			
-//			System.out.println(e.toString());
-//		}
-//
-//		return result;
-//	}
-//	
+        var result = DayCandidate(date.date!!);
 
-//	
-//	fun filterOnlyFilled(intervals: List<IntervalCandidate>, onlyFilled : Boolean) : List<IntervalCandidate> {
-//		
-//		if( !onlyFilled) {
-//			
-//			return intervals;
-//		}
-//		
-//		
-//	 	return intervals.filter { interval -> interval.hasFilledDays() };
-//		
-//	}
+        result.freeDay = true;
+       // result.selected = false;
+        result.freeDayName = name;
+        result.freeDayReason = description;
+
+        return result;
+    }
 }

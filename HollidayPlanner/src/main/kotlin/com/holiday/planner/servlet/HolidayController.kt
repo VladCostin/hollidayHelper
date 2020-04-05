@@ -2,6 +2,7 @@ package com.holiday.planner.servlet
 
 import com.holiday.planner.freeDaysAPI.model.HolidayDay
 import com.holiday.planner.model.DayCandidate
+import com.holiday.planner.model.IntervalCandidate
 import com.holiday.planner.service.ItfHolidayService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -15,7 +16,7 @@ class HolidayController(private val holidayService: ItfHolidayService) {
 	
 	
 	@GetMapping("/hello")
-    fun helloKotlin(): Flux<DayCandidate?> {
-        return holidayService.getHoliday("de", true,null, null )
+    fun helloKotlin(): Mono<List<IntervalCandidate>> {
+        return holidayService.getHoliday("de", true,null, null, true )
     }
 }

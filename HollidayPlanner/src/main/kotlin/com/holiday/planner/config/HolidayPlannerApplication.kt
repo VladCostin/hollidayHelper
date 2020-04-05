@@ -5,9 +5,9 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.ComponentScan
 
 @SpringBootApplication
-@ComponentScan("com.holiday.planner.servlet", "com.holiday.planner.service", "com.holiday.planner.freeDaysAPI", "com.holiday.planner.datamapper")
+@ComponentScan("com.holiday.planner.servlet", "com.holiday.planner.service", "com.holiday.planner.freeDaysAPI", "com.holiday.planner.holidayIdentifier")
 class HolidayPlannerApplication
 
 fun main(args: Array<String>) {
-	runApplication<HolidayPlannerApplication>(*args)
+    runApplication<HolidayPlannerApplication>(*args)
 }

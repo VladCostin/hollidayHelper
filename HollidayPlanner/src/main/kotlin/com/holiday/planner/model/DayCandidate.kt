@@ -12,28 +12,12 @@ class DayCandidate(dayString : String) {
 
     val dateDayLocalDate : LocalDate = LocalDate.parse(dayString);
 
-    var selected : Boolean = false;
+    private var selected : Boolean = false;
 
     var freeDayName : String? = null;
 
     var freeDayReason : String? = null;
 
-    private fun getBeginningWeek() : LocalDate {
-
-        var localDate = dateDayLocalDate;
-        var dayOfWeek : DayOfWeek = DayOfWeek.from(localDate);
-        var result = localDate.minusDays(dayOfWeek.getValue().toLong());
-
-        return result;
-    }
-
-    fun getEndOfTheWeek() : LocalDate {
-
-        var beginningWeek = getBeginningWeek();
-        var result =  beginningWeek.plusDays(DayOfWeek.SATURDAY.getValue().toLong() );
-
-        return result;
-    }
 
     override fun toString() : String {
 
