@@ -11,152 +11,161 @@ import java.time.temporal.ChronoUnit
 class HolidayIdentifier : ItfHolidayIdentifier {
     override fun getWeeksCandidate(days: List<DayCandidate>): List<IntervalCandidate> {
 
-        var intervals : MutableList<IntervalCandidate> = getIntervalCandidates(days);
+        var intervals : MutableList<IntervalCandidate> = getIntervalCandidates(days)
 
-        fillGaps(intervals);
-        intervals =  mergeIntervals(intervals);
+        fillGaps(intervals)
+        intervals =  mergeIntervals(intervals)
 
         return intervals
     }
 
     private fun mergeIntervals(intervals : List<IntervalCandidate>) : MutableList<IntervalCandidate> {
 
-        var result : MutableList<IntervalCandidate> = mutableListOf();
-        var i = 0;
+        val result : MutableList<IntervalCandidate> = mutableListOf()
+        var i = 0
 
         while (i <  intervals.size) {
 
-            var interval : IntervalCandidate = intervals[i];
+            val interval : IntervalCandidate = intervals[i]
 
             if(interval.isFilled()) {
 
                 while(  i < intervals.size - 1 && intervals[i+1].isFilled() &&  ChronoUnit.DAYS.between(intervals[i].rightEdge, intervals[i+1].leftEdge) <= 1 ) {
 
-                    interval.addDays(intervals[i+1].days);
-                    interval.rightEdge = intervals[i+1].rightEdge;
-                    i++;
+                    interval.addDays(intervals[i+1].days)
+                    interval.rightEdge = intervals[i+1].rightEdge
+                    i++
                 }
             }
 
-            i++;
-            result.add(interval);
+            i++
+            result.add(interval)
         }
 
-        return result;
+        return result
     }
 
 
     private fun getIntervalCandidates(days : List<DayCandidate>) : MutableList<IntervalCandidate> {
 
-        var result : MutableList<IntervalCandidate> = mutableListOf();
+        val result : MutableSet<IntervalCandidate> = mutableSetOf()
 
         for (i in days.indices) {
 
-            val before = if (i > 0) days[i-1] else null;
-            result.add(getFirstInterval( days[i], before));
+            val currentDay = days[i]
+            val before = if (i > 0) days[i-1] else null
+            result.add(getFirstInterval( currentDay, before))
 
 
-            val after = if(i < days.size -1 ) days[i + 1] else null;
-            result.add(getSecondInterval(days[i], after));
+            val after = if(i < days.size -1 ) days[i + 1] else null
+            result.add(getSecondInterval(currentDay, after))
         }
 
 
-        return result;
+        return result.toMutableList()
     }
 
     private fun getFirstInterval(current : DayCandidate, before : DayCandidate?) : IntervalCandidate {
 
 
-        val dayBeginningWeek = current.getBeginningWeek();
-        var result : IntervalCandidate;
+        val dayBeginningWeek = current.getBeginningWeek()
+        val result : IntervalCandidate
 
         if(before != null && before.isAfter(dayBeginningWeek)) {
 
-            result  = IntervalCandidate(before.dateDayLocalDate, current.dateDayLocalDate);
+            result  = IntervalCandidate(before.dateDayLocalDate, current.dateDayLocalDate)
 
-            result.days.add(before);
-            result.days.add(current);
+            result.days.add(before)
+            result.days.add(current)
 
         } else {
 
-            result  = IntervalCandidate( dayBeginningWeek, current.dateDayLocalDate);
+            result  = IntervalCandidate( dayBeginningWeek, current.dateDayLocalDate)
 
-            result.days.add(current);
+            result.days.add(current)
         }
 
-        return result;
+        return result
     }
 
     private fun getSecondInterval(current : DayCandidate, next : DayCandidate?) : IntervalCandidate {
 
-        val dayEndWeek = current.getEndOfTheWeek();
-        var result : IntervalCandidate;
+        val dayEndWeek = current.getEndOfTheWeek()
+        val result : IntervalCandidate
 
         if(next != null && next.isBefore(dayEndWeek)) {
 
-            result  = IntervalCandidate(current.dateDayLocalDate, next.dateDayLocalDate);
+            result  = IntervalCandidate(current.dateDayLocalDate, next.dateDayLocalDate)
 
-            result.days.add(current);
-            result.days.add(next);
+            result.days.add(current)
+            result.days.add(next)
 
         } else {
 
-            result  = IntervalCandidate(current.dateDayLocalDate, dayEndWeek);
+            result  = IntervalCandidate(current.dateDayLocalDate, dayEndWeek)
 
-            result.days.add(current);
+            result.days.add(current)
         }
 
-        return result;
+        return result
     }
 
     private fun fillGaps(intervals :  MutableList<IntervalCandidate> ) : MutableList<IntervalCandidate> {
 
 
-        for(i in 1..2) {
+        for(i in 1..4) {
 
-            intervals.forEach{ fillGap(i, it) };
+            intervals.forEach{ fillGap(i, it) }
         }
 
         for(interval in intervals) {
 
-            interval.sortDays();
+            interval.sortDays()
         }
 
-        return intervals;
+        return intervals
     }
 
     private fun fillGap(nrDay : Int,  interval : IntervalCandidate) : IntervalCandidate {
 
 
-        val difference : Long = ChronoUnit.DAYS.between(interval.leftEdge, interval.rightEdge) - 1;
+        val difference : Long = ChronoUnit.DAYS.between(interval.leftEdge, interval.rightEdge) - 1
 
         if(difference == nrDay.toLong()) {
 
             for(i in  1..difference) {
 
-                val date = interval.leftEdge.plusDays( i);
+                val date = interval.leftEdge.plusDays( i)
 
-                interval.days.add(DayCandidate(date.toString()));
+                interval.days.add(DayCandidate(date.toString()))
             }
         }
 
-        return interval;
+        return interval
     }
 
     private fun DayCandidate.getBeginningWeek() : LocalDate {
 
-        var localDate = dateDayLocalDate;
-        var dayOfWeek : DayOfWeek = DayOfWeek.from(localDate);
-        var result = localDate.minusDays(dayOfWeek.value.toLong());
+        val localDate = dateDayLocalDate
+        val dayOfWeek : DayOfWeek = DayOfWeek.from(localDate)
+        val result = localDate.minusDays(dayOfWeek.value.toLong())
 
-        return result;
+        return result
     }
 
     private fun DayCandidate.getEndOfTheWeek() : LocalDate {
 
-        var beginningWeek = getBeginningWeek();
-        var result =  beginningWeek.plusDays(DayOfWeek.SATURDAY.value.toLong() );
+        val beginningWeek = getBeginningWeek()
+        val result =  beginningWeek.plusDays(DayOfWeek.SATURDAY.value.toLong() )
 
-        return result;
+        return result
     }
+
+    fun IntervalCandidate.isFilled() : Boolean {
+
+        val daysBetween = ChronoUnit.DAYS.between(leftEdge, rightEdge)
+
+        return days.size >= daysBetween
+    }
+
 }

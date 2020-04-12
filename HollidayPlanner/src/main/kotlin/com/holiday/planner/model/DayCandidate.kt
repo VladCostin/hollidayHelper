@@ -6,38 +6,36 @@ import java.time.DayOfWeek
 
 class DayCandidate(dayString : String) {
 
-    var freeDay : Boolean = false;
+    var freeDay : Boolean = false
 
-    private val dateDayString : String = dayString;
+    private val dateDayString : String = dayString
 
-    val dateDayLocalDate : LocalDate = LocalDate.parse(dayString);
+    val dateDayLocalDate : LocalDate = LocalDate.parse(dayString)
 
-    private var selected : Boolean = false;
+    var freeDayName : String? = null
 
-    var freeDayName : String? = null;
-
-    var freeDayReason : String? = null;
+    var freeDayReason : String? = null
 
 
     override fun toString() : String {
 
-        return  dateDayString;
+        return  dateDayString
 
     }
 
     fun isAfter(date : LocalDate) : Boolean {
 
-        return dateDayLocalDate.isAfter(date);
+        return dateDayLocalDate.isAfter(date)
     }
 
     fun isBefore(date : LocalDate) : Boolean {
 
-        return dateDayLocalDate.isBefore(date);
+        return dateDayLocalDate.isBefore(date)
     }
 
     fun isSameDay(date : DayCandidate) : Boolean {
 
-        return dateDayLocalDate.isEqual(date.dateDayLocalDate);
+        return dateDayLocalDate.isEqual(date.dateDayLocalDate)
     }
 
 }

@@ -10,17 +10,17 @@ import reactor.core.publisher.Mono
 import reactor.core.publisher.toFlux
 
 
-@Component
-class FreeDaysAPIDummy : ItfFreeDaysAPI {
-
-    override fun getCountries(country: String, year: Int): Flux<HolidayDay> {
-
-        val path = "dummyHolidayData"
-        var text: String? = ""
-
-        ClassPathResource(path).file.bufferedReader().readLines().forEach{ text += it }
-
-        val response : FreeDaysResponseData = Gson().fromJson(text, FreeDaysResponseData::class.java)
-        return Flux.fromIterable(response.body.holidays)
-    }
-}
+//@Component
+//class FreeDaysAPIDummy : ItfFreeDaysAPI {
+//
+//    override fun getCountries(country: String, year: Int): Flux<HolidayDay> {
+//
+//        val path = "dummyHolidayData"
+//        var text: String? = ""
+//
+//        ClassPathResource(path).file.bufferedReader().readLines().forEach{ text += it }
+//
+//        val response : FreeDaysResponseData = Gson().fromJson(text, FreeDaysResponseData::class.java)
+//        return Flux.fromIterable(response.body.holidays)
+//    }
+//}

@@ -18,7 +18,7 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
 
         return freeDaysAPI.getCountries(x, 2020).map { it.mapDay() }.filter { it.filterByInterval(fromDate, toDate, onlyFuture) }.collectList().map {
 
-            holidayIdentifier.getWeeksCandidate(it.toList())
+            holidayIdentifier.getWeeksCandidate(it.toList()).filter { it.filterOnlyFilled(onlyFilled) }
         }
     }
 
@@ -27,7 +27,7 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
 
     private fun DayCandidate.isDayNotInWeekend(): Boolean {
 
-        return dateDayLocalDate.dayOfWeek != DayOfWeek.SATURDAY && dateDayLocalDate.dayOfWeek != DayOfWeek.SUNDAY;
+        return dateDayLocalDate.dayOfWeek != DayOfWeek.SATURDAY && dateDayLocalDate.dayOfWeek != DayOfWeek.SUNDAY
 
     }
 
@@ -39,13 +39,16 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
 
     private fun HolidayDay.mapDay(): DayCandidate {
 
-        var result = DayCandidate(date.date!!);
+        var result = DayCandidate(date.date!!)
 
-        result.freeDay = true;
-       // result.selected = false;
-        result.freeDayName = name;
-        result.freeDayReason = description;
+        result.freeDay = true
+        result.freeDayName = name
+        result.freeDayReason = description
 
-        return result;
+        return result
     }
+
+    fun IntervalCandidate.filterOnlyFilled(onlyFilled: Boolean) = !onlyFilled ||
+            days.stream().anyMatch { !it.freeDay && DayOfWeek.from(it.dateDayLocalDate) != DayOfWeek.SATURDAY && DayOfWeek.from(it.dateDayLocalDate) != DayOfWeek.SUNDAY }
+
 }
