@@ -10,6 +10,7 @@ import org.springframework.web.reactive.function.client.WebClient
 import reactor.core.publisher.Flux
 import reactor.kotlin.core.publisher.toFlux
 
+
 @Component
 class FreeDaysAPI : ItfFreeDaysAPI {
 
@@ -34,6 +35,5 @@ class FreeDaysAPI : ItfFreeDaysAPI {
 
             Gson().fromJson(it, FreeDaysResponseData::class.java)
         }.map { it.body.holidays }.flatMapMany { it.toFlux() }
-
     }
 }
