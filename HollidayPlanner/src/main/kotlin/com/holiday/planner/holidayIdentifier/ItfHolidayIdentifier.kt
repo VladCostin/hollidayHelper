@@ -5,5 +5,5 @@ import com.holiday.planner.model.IntervalCandidate
 
 interface ItfHolidayIdentifier {
 
-    fun getWeeksCandidate(days: List<DayCandidate>): List<IntervalCandidate>
+    fun getWeeksCandidate(days: List<DayCandidate>, gapsSize : List<Int>): List<IntervalCandidate>
 }

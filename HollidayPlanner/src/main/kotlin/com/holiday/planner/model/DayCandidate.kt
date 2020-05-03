@@ -4,24 +4,19 @@ import java.util.Date
 import java.time.LocalDate
 import java.time.DayOfWeek
 
-class DayCandidate(dayString : String) {
+data class DayCandidate(private val dayString : String) {
 
     var freeDay : Boolean = false
 
-    private val dateDayString : String = dayString
+    var workingDay : Boolean = false
 
     val dateDayLocalDate : LocalDate = LocalDate.parse(dayString)
+
+    val dayOfTheWeek : DayOfWeek = LocalDate.parse(dayString).dayOfWeek
 
     var freeDayName : String? = null
 
     var freeDayReason : String? = null
-
-
-    override fun toString() : String {
-
-        return  dateDayString
-
-    }
 
     fun isAfter(date : LocalDate) : Boolean {
 

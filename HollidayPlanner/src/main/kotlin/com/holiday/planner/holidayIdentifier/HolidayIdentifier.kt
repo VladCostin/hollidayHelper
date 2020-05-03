@@ -9,12 +9,12 @@ import java.time.temporal.ChronoUnit
 
 @Component
 class HolidayIdentifier : ItfHolidayIdentifier {
-    override fun getWeeksCandidate(days: List<DayCandidate>): List<IntervalCandidate> {
+    override fun getWeeksCandidate(days: List<DayCandidate>,  gapsSize : List<Int>): List<IntervalCandidate> {
 
         var intervals : MutableList<IntervalCandidate> = getIntervalCandidates(days)
 
-        fillGaps(intervals)
-        intervals =  mergeIntervals(intervals)
+        fillGaps(intervals, gapsSize)
+        //intervals =  mergeIntervals(intervals)
 
         return intervals
     }
@@ -110,10 +110,10 @@ class HolidayIdentifier : ItfHolidayIdentifier {
         return result
     }
 
-    private fun fillGaps(intervals :  MutableList<IntervalCandidate> ) : MutableList<IntervalCandidate> {
+    private fun fillGaps(intervals :  MutableList<IntervalCandidate>,  gapsSize : List<Int> ) : MutableList<IntervalCandidate> {
 
 
-        for(i in 1..4) {
+        for(i in gapsSize) {
 
             intervals.forEach{ fillGap(i, it) }
         }
@@ -136,8 +136,11 @@ class HolidayIdentifier : ItfHolidayIdentifier {
             for(i in  1..difference) {
 
                 val date = interval.leftEdge.plusDays( i)
+                val dayCandidate = DayCandidate(date.toString())
 
-                interval.days.add(DayCandidate(date.toString()))
+                dayCandidate.workingDay = true
+
+                interval.days.add(dayCandidate)
             }
         }
 

@@ -17,7 +17,10 @@ class HolidayController(private val holidayService: ItfHolidayService) {
 
 
     @GetMapping("/request")
-    fun helloKotlin(@RequestParam(name = "country") country: String, @RequestParam(name = "only_filled", defaultValue = "true") onlyFilled: Boolean = true, @RequestParam(name = "only_future", defaultValue = "true") onlyFuture: Boolean = true): Mono<List<IntervalCandidate>> {
-        return holidayService.getHoliday(country, onlyFilled, null, null, onlyFuture)
+    fun helloKotlin(@RequestParam(name = "country") country: String,
+                    @RequestParam(name = "only_filled", defaultValue = "true") onlyFilled: Boolean = true,
+                    @RequestParam(name = "only_future", defaultValue = "true") onlyFuture: Boolean = true,
+                    @RequestParam(name= "gaps_size") gapsSize: List<Int>): Mono<List<IntervalCandidate>> {
+        return holidayService.getHoliday(country, onlyFilled, null, null, onlyFuture, gapsSize)
     }
 }

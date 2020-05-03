@@ -9,5 +9,5 @@ import java.time.LocalDate
 
 interface ItfHolidayService {
 
-    fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?, onlyFuture: Boolean) : Mono<List<IntervalCandidate>>
+    fun getHoliday(x: String, onlyFilled : Boolean, fromDate : LocalDate?, toDate : LocalDate?, onlyFuture: Boolean, gapsSize: List<Int>) : Mono<List<IntervalCandidate>>
 }

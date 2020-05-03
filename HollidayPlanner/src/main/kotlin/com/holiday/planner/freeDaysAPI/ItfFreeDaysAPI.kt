@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono
 
 interface ItfFreeDaysAPI {
 
-    fun getCountries(country: String, year: Int): Flux<HolidayDay>
+    fun getHolidays(country: String, year: Int): Flux<HolidayDay>
 }

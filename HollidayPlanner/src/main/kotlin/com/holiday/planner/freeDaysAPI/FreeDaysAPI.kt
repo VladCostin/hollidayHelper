@@ -3,6 +3,7 @@ package com.holiday.planner.freeDaysAPI
 import com.google.gson.Gson
 import com.holiday.planner.freeDaysAPI.model.FreeDaysResponseData
 import com.holiday.planner.freeDaysAPI.model.HolidayDay
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.HttpHeaders.CONTENT_TYPE
 import org.springframework.http.MediaType.APPLICATION_JSON_VALUE
 import org.springframework.stereotype.Component
@@ -20,7 +21,8 @@ class FreeDaysAPI : ItfFreeDaysAPI {
 
     private val typeHolliday: String = "national"
 
-    override fun getCountries(country: String, year: Int): Flux<HolidayDay> {
+    @Cacheable("holidays")
+    override fun getHolidays(country: String, year: Int): Flux<HolidayDay> {
 
         val webclient = WebClient
                 .builder()
@@ -31,9 +33,7 @@ class FreeDaysAPI : ItfFreeDaysAPI {
 
         return webclient.get().uri {
             it.queryParam("country", country).queryParam("year", year).queryParam("api_key", token).queryParam("type", typeHolliday).build()
-        }.retrieve().bodyToMono(String::class.java).map {
-
-            Gson().fromJson(it, FreeDaysResponseData::class.java)
+        }.retrieve().bodyToMono(String::class.java).map { Gson().fromJson(it, FreeDaysResponseData::class.java)
         }.map { it.body.holidays }.flatMapMany { it.toFlux() }
     }
 }

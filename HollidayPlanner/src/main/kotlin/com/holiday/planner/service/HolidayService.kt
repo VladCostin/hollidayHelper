@@ -8,17 +8,17 @@ import com.holiday.planner.model.IntervalCandidate
 import java.time.LocalDate
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
+import reactor.kotlin.core.publisher.toMono
 import java.time.DayOfWeek
 
 @Component
 class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holidayIdentifier: ItfHolidayIdentifier) : ItfHolidayService {
 
 
-    override fun getHoliday(x: String, onlyFilled: Boolean, fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean): Mono<List<IntervalCandidate>> {
+    override fun getHoliday(x: String, onlyFilled: Boolean, fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean, gapsSize: List<Int>): Mono<List<IntervalCandidate>> {
 
-        return freeDaysAPI.getCountries(x, 2020).map { it.mapDay() }.filter { it.filterByInterval(fromDate, toDate, onlyFuture) }.collectList().map {
-
-            holidayIdentifier.getWeeksCandidate(it.toList()).filter { it.filterOnlyFilled(onlyFilled) }
+        return freeDaysAPI.getHolidays(x, 2020).map { it.mapDay() }.filter { it.filterByInterval(fromDate, toDate, onlyFuture) }.collectList().map { it ->
+            holidayIdentifier.getWeeksCandidate(it.toList(), gapsSize).filter { it.filterOnlyFilled(onlyFilled) }
         }
     }
 
@@ -31,15 +31,15 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
 
     }
 
-    private inline fun DayCandidate.isDayAfter(fromDate: LocalDate?) = fromDate == null || isAfter(fromDate)
+    private fun DayCandidate.isDayAfter(fromDate: LocalDate?) = fromDate == null || isAfter(fromDate)
 
-    private inline fun DayCandidate.isDayBefore(toDate: LocalDate?) = toDate == null || isBefore(toDate)
+    private fun DayCandidate.isDayBefore(toDate: LocalDate?) = toDate == null || isBefore(toDate)
 
-    private inline fun DayCandidate.isNotPassed(onlyFuture: Boolean) = !onlyFuture || isAfter(LocalDate.now())
+    private fun DayCandidate.isNotPassed(onlyFuture: Boolean) = !onlyFuture || isAfter(LocalDate.now())
 
     private fun HolidayDay.mapDay(): DayCandidate {
 
-        var result = DayCandidate(date.date!!)
+        val result = DayCandidate(date.date!!)
 
         result.freeDay = true
         result.freeDayName = name
