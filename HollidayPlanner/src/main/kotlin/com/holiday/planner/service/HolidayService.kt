@@ -4,15 +4,18 @@ import com.holiday.planner.freeDaysAPI.ItfFreeDaysAPI
 import com.holiday.planner.freeDaysAPI.model.HolidayDay
 import com.holiday.planner.holidayIdentifier.ItfHolidayIdentifier
 import com.holiday.planner.model.DayCandidate
+import com.holiday.planner.model.HolidayDto
 import com.holiday.planner.model.IntervalCandidate
+import com.holiday.planner.repository.HolidayRepository
+import com.holiday.planner.repository.Holiday
+import com.holiday.planner.repository.HolidayIdentity
 import java.time.LocalDate
 import org.springframework.stereotype.Component
 import reactor.core.publisher.Mono
-import reactor.kotlin.core.publisher.toMono
 import java.time.DayOfWeek
 
 @Component
-class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holidayIdentifier: ItfHolidayIdentifier) : ItfHolidayService {
+class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holidayIdentifier: ItfHolidayIdentifier, private val holidayRepository: HolidayRepository) : ItfHolidayService {
 
 
     override fun getHoliday(x: String, onlyFilled: Boolean, fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean, gapsSize: List<Int>): Mono<List<IntervalCandidate>> {
@@ -20,6 +23,13 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
         return freeDaysAPI.getHolidays(x, 2020).map { it.mapDay() }.filter { it.filterByInterval(fromDate, toDate, onlyFuture) }.collectList().map { it ->
             holidayIdentifier.getWeeksCandidate(it.toList(), gapsSize).filter { it.filterOnlyFilled(onlyFilled) }
         }
+    }
+
+    override fun save(holidayDto: HolidayDto) {
+
+        val holidayEntity = holidayDto.toEntity()
+
+        holidayRepository.save(holidayEntity)
     }
 
     private fun DayCandidate.filterByInterval(fromDate: LocalDate?, toDate: LocalDate?, onlyFuture: Boolean) = isDayAfter(fromDate) &&
@@ -46,6 +56,11 @@ class HolidayService(private val freeDaysAPI: ItfFreeDaysAPI, private val holida
         result.freeDayReason = description
 
         return result
+    }
+
+    private fun HolidayDto.toEntity(): Holiday {
+
+        return Holiday(HolidayIdentity(userId, to, from), title)
     }
 
     fun IntervalCandidate.filterOnlyFilled(onlyFilled: Boolean) = !onlyFilled ||
